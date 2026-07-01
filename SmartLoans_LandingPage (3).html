@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartLoans — Préstamos entre personas, con inteligencia</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#001133;--blue:#0057FF;--blue-mid:#185FA5;--blue-light:#E6F1FB;
+  --green:#00875A;--green-light:#E8F5EE;--purple:#5B21B6;--purple-light:#EDE9FE;
+  --gold:#F59E0B;--white:#fff;
+  --g50:#F7F9FC;--g100:#EEF2F7;--g200:#D8E1EE;--g500:#6B7A99;--g700:#374151;--g900:#0F172A;
+  --r:8px;--rm:14px;--rl:20px;--rxl:28px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:#fff;color:var(--g900);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(0,17,51,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-size:19px;font-weight:900;color:#fff;letter-spacing:-.5px;text-decoration:none}
+.logo span{color:#4B9EFF}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{font-size:13px;font-weight:500;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-cta{background:var(--blue);color:#fff;font-size:13px;font-weight:700;padding:9px 20px;border-radius:var(--r);text-decoration:none;transition:background .2s}
+.nav-cta:hover{background:#004AE0}
+
+/* HERO */
+.hero{background:var(--navy);padding:100px 5% 80px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-140px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(0,87,255,.15) 0%,transparent 65%);pointer-events:none}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(0,87,255,.15);border:1px solid rgba(0,87,255,.3);color:#7CB9F4;font-size:11px;font-weight:700;padding:5px 13px;border-radius:20px;margin-bottom:24px;letter-spacing:.06em;text-transform:uppercase}
+.hero h1{font-size:clamp(36px,5.5vw,66px);font-weight:900;color:#fff;line-height:1.06;letter-spacing:-2.5px;max-width:860px;margin:0 auto 20px}
+.hero h1 em{font-style:normal;color:#4B9EFF}
+.hero-sub{font-size:clamp(15px,1.8vw,18px);color:rgba(255,255,255,.55);max-width:560px;margin:0 auto 36px;line-height:1.65}
+
+/* Store badges hero */
+.store-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+.store-mini{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);color:#fff;padding:10px 18px;border-radius:11px;text-decoration:none;font-size:12px;font-weight:600;transition:background .2s,transform .15s}
+.store-mini:hover{background:rgba(255,255,255,.15);transform:translateY(-1px)}
+.store-mini svg{flex-shrink:0}
+
+/* Connection visual */
+.conn-visual{display:flex;align-items:center;justify-content:center;max-width:720px;margin:0 auto;gap:0}
+.conn-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:var(--rm);padding:18px 20px;text-align:center;width:150px;flex-shrink:0}
+.conn-avatar{width:44px;height:44px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+.av-blue{background:rgba(0,87,255,.25);color:#4B9EFF}
+.av-green{background:rgba(0,135,90,.25);color:#34D399}
+.av-purple{background:rgba(91,33,182,.3);color:#A78BFA}
+.conn-card h4{color:#fff;font-size:12px;font-weight:700;margin-bottom:2px}
+.conn-card p{color:rgba(255,255,255,.45);font-size:10px}
+.conn-badge{display:inline-block;margin-top:7px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px}
+.cb-blue{background:rgba(0,87,255,.2);color:#4B9EFF}
+.cb-green{background:rgba(0,135,90,.2);color:#34D399}
+.cb-purple{background:rgba(91,33,182,.25);color:#A78BFA}
+.conn-mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 8px}
+.conn-line{width:100%;height:2px;background:rgba(255,255,255,.12);border-radius:2px;position:relative;overflow:hidden}
+.conn-line::after{content:'';position:absolute;top:0;left:-40%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(75,158,255,.6),transparent);animation:slide 2s ease-in-out infinite}
+@keyframes slide{0%{left:-40%}100%{left:140%}}
+.conn-center{background:var(--blue);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;letter-spacing:-.3px}
+
+/* TRUST BAR */
+.trust-bar{background:var(--g50);border-top:1px solid var(--g100);border-bottom:1px solid var(--g100);padding:18px 5%;display:flex;justify-content:center;gap:36px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:10px;color:var(--g700);font-size:13px;font-weight:500}
+.trust-icon{width:32px;height:32px;border-radius:8px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:16px}
+
+/* SECTIONS */
+section{padding:80px 5%}
+.sec-eye{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.sec-title{font-size:clamp(26px,3.5vw,42px);font-weight:900;color:var(--g900);line-height:1.1;letter-spacing:-1.2px;margin-bottom:14px}
+.sec-sub{font-size:16px;color:var(--g500);max-width:520px;line-height:1.65;margin-bottom:48px}
+
+/* NOSOTROS */
+.about{background:#fff}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.about-copy .sec-sub{margin-bottom:28px}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+.stat-card{background:var(--g50);border:1px solid var(--g100);border-radius:var(--rm);padding:20px 18px}
+.stat-num{font-size:30px;font-weight:900;color:var(--navy);letter-spacing:-1px;line-height:1}
+.stat-lbl{font-size:12px;color:var(--g500);margin-top:4px}
+.about-visual{background:var(--navy);border-radius:var(--rxl);padding:36px 32px}
+.about-visual h4{color:#fff;font-size:16px;font-weight:700;margin-bottom:20px}
+.value-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
+.value-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.value-ico.bl{background:rgba(0,87,255,.2)}
+.value-ico.gn{background:rgba(0,135,90,.2)}
+.value-ico.pu{background:rgba(91,33,182,.2)}
+.value-ico.gd{background:rgba(245,158,11,.2)}
+.value-item h5{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.value-item p{font-size:12px;color:rgba(255,255,255,.5);line-height:1.45}
+
+/* HOW IT WORKS */
+.hiw{background:var(--g50)}
+.steps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-bottom:2px}
+.step-card{background:#fff;border:1px solid var(--g100);border-radius:var(--rm);padding:18px 14px;transition:border-color .2s}
+.step-card:hover{border-color:var(--g200)}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.step-ico{font-size:20px;margin-bottom:8px}
+.step-card h3{font-size:12px;font-weight:700;color:var(--g900);margin-bottom:5px;line-height:1.3}
+.step-card p{font-size:11px;color:var(--g500);line-height:1.5}
+.stags{display:flex;flex-wrap:wrap;gap:3px;margin-top:8px}
+.stag{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px}
+.stag-b{background:var(--blue-light);color:var(--blue-mid)}
+.stag-g{background:var(--green-light);color:var(--green)}
+
+/* PROFILES */
+.profiles{background:#fff}
+.profiles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.profile-card{border-radius:var(--rxl);padding:36px 28px;position:relative;overflow:hidden}
+.profile-card::before{content:'';position:absolute;top:-80px;right:-80px;width:220px;height:220px;border-radius:50%;pointer-events:none}
+.pc-client{background:var(--navy);border:1px solid rgba(0,87,255,.2)}
+.pc-client::before{background:radial-gradient(circle,rgba(0,87,255,.18),transparent 65%)}
+.pc-lender{background:#001A0E;border:1px solid rgba(0,135,90,.2)}
+.pc-lender::before{background:radial-gradient(circle,rgba(0,135,90,.18),transparent 65%)}
+.pc-lawyer{background:#0D0B2E;border:1px solid rgba(91,33,182,.25)}
+.pc-lawyer::before{background:radial-gradient(circle,rgba(91,33,182,.18),transparent 65%)}
+.profile-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.pc-client .profile-label{color:#4B9EFF}
+.pc-lender .profile-label{color:#34D399}
+.pc-lawyer .profile-label{color:#A78BFA}
+.profile-ico{font-size:32px;margin-bottom:14px}
+.profile-card h3{font-size:22px;font-weight:800;color:#fff;line-height:1.15;letter-spacing:-.5px;margin-bottom:10px}
+.profile-card>p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.65;margin-bottom:22px}
+.feat-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
+.feat-list li{display:flex;align-items:flex-start;gap:9px;font-size:12.5px;color:rgba(255,255,255,.78);line-height:1.4}
+.feat-list li::before{content:'✓';font-weight:800;flex-shrink:0;margin-top:1px}
+.pc-client .feat-list li::before{color:#4B9EFF}
+.pc-lender .feat-list li::before{color:#34D399}
+.pc-lawyer .feat-list li::before{color:#A78BFA}
+.prof-btn{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;padding:12px 20px;border-radius:var(--r);text-decoration:none;transition:transform .15s,opacity .2s;width:100%;justify-content:center}
+.prof-btn:hover{transform:translateY(-1px);opacity:.9}
+.pc-client .prof-btn{background:var(--blue);color:#fff}
+.pc-lender .prof-btn{background:var(--green);color:#fff}
+.pc-lawyer .prof-btn{background:#6D28D9;color:#fff}
+
+/* SMART SCORE */
+.score-sec{background:var(--g50)}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.score-visual{background:#fff;border:1px solid var(--g100);border-radius:var(--rxl);padding:36px}
+.score-ring{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--blue) 0deg 275deg,var(--g100) 275deg 360deg);display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.score-inner{width:114px;height:114px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-num{font-size:32px;font-weight:900;color:var(--navy);letter-spacing:-2px;line-height:1}
+.score-lbl{font-size:9px;font-weight:700;color:var(--g500);text-transform:uppercase;letter-spacing:.06em}
+.score-factors{display:flex;flex-direction:column;gap:9px}
+.sf{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--g700)}
+.sf-name{min-width:110px;font-weight:500}
+.sf-bar{flex:1;height:5px;background:var(--g100);border-radius:3px;overflow:hidden}
+.sf-fill{height:100%;background:var(--blue);border-radius:3px}
+.sf-val{font-size:11px;font-weight:700;color:var(--blue);min-width:28px;text-align:right}
+.ai-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.ai-chip{background:var(--blue-light);color:var(--blue-mid);font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px}
+
+/* LEGAL */
+.legal-sec{background:#0D0B2E}
+.legal-sec .sec-eye{color:#A5B4FC}
+.legal-sec .sec-title{color:#fff}
+.legal-sec .sec-sub{color:rgba(255,255,255,.45)}
+.legal-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+.ls{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:var(--rm);padding:22px 16px;text-align:center;transition:background .2s}
+.ls:hover{background:rgba(255,255,255,.07)}
+.ls-n{font-size:10px;font-weight:700;color:#6366F1;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.ls-ico{font-size:26px;margin-bottom:10px}
+.ls h4{font-size:12px;font-weight:700;color:#fff;margin-bottom:5px}
+.ls p{font-size:11px;color:rgba(255,255,255,.4);line-height:1.5}
+.legal-note{display:inline-flex;align-items:center;gap:7px;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.25);color:#A5B4FC;font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;margin-top:40px}
+
+/* TECH */
+.tech-sec{background:#fff}
+.tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tech-card{background:var(--g50);border:1px solid var(--g100);border-radius:var(--rm);padding:18px 16px;display:flex;align-items:flex-start;gap:13px}
+.tech-ico{width:38px;height:38px;border-radius:9px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.tech-card h4{font-size:12px;font-weight:700;color:var(--g900);margin-bottom:3px}
+.tech-card p{font-size:11px;color:var(--g500);line-height:1.45}
+
+/* DOWNLOAD */
+.download-sec{background:var(--navy);text-align:center;padding:100px 5%;position:relative;overflow:hidden}
+.download-sec::before{content:'';position:absolute;bottom:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,87,255,.18),transparent 65%);pointer-events:none}
+.download-sec h2{font-size:clamp(28px,4vw,52px);font-weight:900;color:#fff;letter-spacing:-1.5px;line-height:1.08;margin-bottom:14px}
+.download-sec h2 em{font-style:normal;color:#4B9EFF}
+.download-sec>p{font-size:16px;color:rgba(255,255,255,.5);margin-bottom:40px}
+.store-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.store-btn{display:flex;align-items:center;gap:12px;padding:13px 24px;border-radius:13px;text-decoration:none;transition:transform .15s,opacity .2s;min-width:168px}
+.store-btn:hover{transform:translateY(-2px);opacity:.9}
+.store-btn.apple{background:#000;border:1px solid rgba(255,255,255,.15);color:#fff}
+.store-btn.google{background:#1a1a1a;border:1px solid rgba(255,255,255,.15);color:#fff}
+.store-btn-text .top{font-size:10px;opacity:.65;line-height:1}
+.store-btn-text .name{font-size:15px;font-weight:700;line-height:1.2}
+.reg-note{font-size:13px;color:rgba(255,255,255,.3)}
+.reg-note a{color:rgba(75,158,255,.7);text-decoration:none}
+.reg-note a:hover{color:#4B9EFF}
+
+/* FOOTER */
+footer{background:#000D22;padding:40px 5%;border-top:1px solid rgba(255,255,255,.06)}
+.footer-inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:32px;margin-bottom:32px}
+.footer-brand .logo{font-size:17px;display:block;margin-bottom:8px}
+.footer-brand p{font-size:12px;color:rgba(255,255,255,.3);max-width:220px;line-height:1.5}
+.footer-col h5{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.35);text-decoration:none;margin-bottom:8px;transition:color .2s}
+.footer-col a:hover{color:rgba(255,255,255,.75)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-bottom p{font-size:12px;color:rgba(255,255,255,.2)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.profiles-grid{grid-template-columns:1fr 1fr}.about-grid{grid-template-columns:1fr;gap:36px}.score-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.steps-grid{grid-template-columns:repeat(3,1fr)}.legal-steps{grid-template-columns:repeat(3,1fr)}.tech-grid{grid-template-columns:repeat(2,1fr)}.profiles-grid{grid-template-columns:1fr}.nav-links{display:none}.conn-visual{display:none}.trust-bar{gap:16px}}
+@media(max-width:480px){.steps-grid{grid-template-columns:1fr 1fr}.legal-steps{grid-template-columns:1fr 1fr}.footer-inner{flex-direction:column}}
+</style>
+<style>
+
+/* Page router */
+.page { display: none; }
+.page.active { display: block; }
+/* Doc page styles */
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#001133;--blue:#0057FF;--blue-light:#E6F1FB;--g50:#F7F9FC;--g100:#EEF2F7;--g500:#6B7A99;--g700:#374151;--g900:#0F172A}
+
+
+
+.nav-back{font-size:13px;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s}.nav-back:hover{color:#fff}
+.hero-doc{background:var(--navy);padding:60px 5% 48px;border-bottom:1px solid rgba(255,255,255,.08)}
+.doc-type{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4B9EFF;margin-bottom:10px}
+.hero-doc h1{font-size:clamp(28px,4vw,42px);font-weight:900;color:#fff;letter-spacing:-1px;line-height:1.1;margin-bottom:12px}
+.hero-doc .meta{font-size:13px;color:rgba(255,255,255,.4)}
+.content{max-width:800px;margin:0 auto;padding:56px 5% 80px}
+h2{font-size:20px;font-weight:800;color:var(--g900);margin:40px 0 12px;padding-top:8px;border-top:1px solid var(--g100)}
+h2:first-of-type{margin-top:0;border-top:none}
+h3{font-size:15px;font-weight:700;color:var(--g700);margin:24px 0 8px}
+p{font-size:15px;color:var(--g700);margin-bottom:14px;line-height:1.75}
+ul,ol{padding-left:20px;margin-bottom:14px}
+li{font-size:15px;color:var(--g700);margin-bottom:6px;line-height:1.65}
+.highlight{background:var(--blue-light);border-left:3px solid var(--blue);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0}
+.highlight p{margin:0;color:#003399;font-weight:500}
+.contact-box{background:var(--g50);border:1px solid var(--g100);border-radius:12px;padding:24px;margin-top:40px}
+.contact-box h3{margin-top:0;margin-bottom:12px;color:var(--g900)}
+.contact-box p{margin-bottom:6px}
+.contact-box a{color:var(--blue);text-decoration:none}.contact-box a:hover{text-decoration:underline}
+footer{background:var(--navy);padding:24px 5%;text-align:center}
+footer p{font-size:12px;color:rgba(255,255,255,.3)}
+footer a{color:rgba(75,158,255,.6);text-decoration:none}.footer a:hover{color:#4B9EFF}
+table{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:14px}
+th{background:var(--g50);padding:10px 14px;text-align:left;font-weight:700;color:var(--g700);border:1px solid var(--g100)}
+td{padding:10px 14px;border:1px solid var(--g100);color:var(--g700);vertical-align:top}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#001133;--blue:#0057FF;--blue-light:#E6F1FB;--green:#00875A;--green-light:#E8F5EE;--g50:#F7F9FC;--g100:#EEF2F7;--g500:#6B7A99;--g700:#374151;--g900:#0F172A}
+
+
+
+.nav-back{font-size:13px;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s}.nav-back:hover{color:#fff}
+.hero-doc{background:var(--navy);padding:60px 5% 48px}
+.doc-type{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4B9EFF;margin-bottom:10px}
+.hero-doc h1{font-size:clamp(28px,4vw,42px);font-weight:900;color:#fff;letter-spacing:-1px;line-height:1.1;margin-bottom:12px}
+.hero-doc .meta{font-size:13px;color:rgba(255,255,255,.4)}
+.content{max-width:800px;margin:0 auto;padding:56px 5% 80px}
+h2{font-size:20px;font-weight:800;color:var(--g900);margin:40px 0 12px;padding-top:8px;border-top:1px solid var(--g100)}
+h2:first-of-type{margin-top:0;border-top:none}
+h3{font-size:15px;font-weight:700;color:var(--g700);margin:22px 0 8px}
+p{font-size:15px;color:var(--g700);margin-bottom:14px;line-height:1.75}
+ul,ol{padding-left:20px;margin-bottom:14px}
+li{font-size:15px;color:var(--g700);margin-bottom:6px;line-height:1.65}
+.highlight{background:var(--blue-light);border-left:3px solid var(--blue);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0}
+.highlight p{margin:0;color:#003399;font-weight:500}
+.highlight-green{background:var(--green-light);border-left:3px solid var(--green);padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0}
+.highlight-green p{margin:0;color:#004D2E;font-weight:500}
+.highlight-warn{background:#FFF7ED;border-left:3px solid #F59E0B;padding:14px 18px;border-radius:0 8px 8px 0;margin:20px 0}
+.highlight-warn p{margin:0;color:#78350F;font-weight:500}
+.profile-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;margin-bottom:10px}
+.pb-client{background:var(--blue-light);color:var(--blue)}
+.pb-lender{background:var(--green-light);color:var(--green)}
+.pb-lawyer{background:#EDE9FE;color:#5B21B6}
+.contact-box{background:var(--g50);border:1px solid var(--g100);border-radius:12px;padding:24px;margin-top:40px}
+.contact-box h3{margin-top:0;margin-bottom:12px;color:var(--g900)}
+.contact-box p{margin-bottom:6px}
+.contact-box a{color:var(--blue);text-decoration:none}.contact-box a:hover{text-decoration:underline}
+footer{background:var(--navy);padding:24px 5%;text-align:center}
+footer p{font-size:12px;color:rgba(255,255,255,.3)}
+footer a{color:rgba(75,158,255,.6);text-decoration:none}
+
+</style>
+</head>
+<body>
+
+<!-- PAGE: HOME -->
+<div class="page active" id="page-home">
+<nav>
+  <a href="#" class="logo">Smart<span>Loans</span></a>
+  <ul class="nav-links">
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#perfiles">Únete</a></li>
+    <li><a href="#legal">Respaldo legal</a></li>
+    <li><a href="#descarga">Descargar</a></li>
+  </ul>
+  <a href="#descarga" class="nav-cta">Descargar app</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">🇲🇽 Fintech · Préstamos entre personas · IA + Biometría</div>
+  <h1>El préstamo que necesitas,<br>de <em>personas reales.</em></h1>
+  <p class="hero-sub">SmartLoans conecta a quienes necesitan capital con quienes quieren invertir — con verificación biométrica, inteligencia artificial y respaldo legal en cada operación.</p>
+  <div class="store-row">
+    <a href="https://apps.apple.com/app/smartloans" target="_blank" class="store-mini">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.15-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04l-.07.28zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      App Store — iOS
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=com.smartloans" target="_blank" class="store-mini">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M3.18 23.76c.3.17.64.24.99.2l12.45-7.19-2.78-2.78-10.66 9.77zM.51 1.46C.19 1.79 0 2.3 0 2.97v18.06c0 .67.19 1.18.51 1.51l.08.08 10.12-10.12v-.24L.59 1.38l-.08.08zM20.6 10.27l-2.88-1.66-3.12 3.12 3.12 3.12 2.9-1.68c.83-.48.83-1.26-.02-1.9zM4.17.24L16.62 7.43l-2.78 2.78L3.18.44C3.53.05 3.87.07 4.17.24z"/></svg>
+      Google Play — Android
+    </a>
+  </div>
+  <div class="conn-visual">
+    <div class="conn-card">
+      <div class="conn-avatar av-blue">C</div>
+      <h4>Acreditado</h4>
+      <p>Necesita capital</p>
+      <span class="conn-badge cb-blue">✓ Verificado</span>
+    </div>
+    <div class="conn-mid">
+      <div class="conn-line"></div>
+      <div class="conn-center">SL</div>
+      <div class="conn-line"></div>
+    </div>
+    <div class="conn-card">
+      <div class="conn-avatar av-green">P</div>
+      <h4>Prestamista</h4>
+      <p>Quiere invertir</p>
+      <span class="conn-badge cb-green">★ Activo</span>
+    </div>
+    <div class="conn-mid">
+      <div class="conn-line"></div>
+      <div class="conn-center">SL</div>
+      <div class="conn-line"></div>
+    </div>
+    <div class="conn-card">
+      <div class="conn-avatar av-purple">⚖</div>
+      <h4>Abogado</h4>
+      <p>Protege al prestamista</p>
+      <span class="conn-badge cb-purple">⚖ Certificado</span>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><div class="trust-icon">🔐</div><span>Biometría · Azure Face API</span></div>
+  <div class="trust-item"><div class="trust-icon">🤖</div><span>SmartScore · Motor de IA</span></div>
+  <div class="trust-item"><div class="trust-icon">📋</div><span>Contratos digitales y pagarés</span></div>
+  <div class="trust-item"><div class="trust-icon">⚖️</div><span>Respaldo jurídico especializado</span></div>
+  <div class="trust-item"><div class="trust-icon">📱</div><span>iOS y Android</span></div>
+</div>
+
+<!-- NOSOTROS -->
+<section class="about" id="nosotros">
+  <div class="about-grid">
+    <div class="about-copy">
+      <div class="sec-eye">Acerca de SmartLoans</div>
+      <h2 class="sec-title">No somos un banco.<br>Somos el puente.</h2>
+      <p class="sec-sub">SmartLoans es un marketplace de préstamos entre personas, impulsado por inteligencia artificial. No prestamos dinero — construimos confianza y conectamos a quienes lo necesitan con quienes lo tienen.</p>
+      <p style="font-size:14px;color:var(--g500);line-height:1.7">Nuestro modelo protege a todas las partes: el acreditado obtiene tasas justas negociadas directamente, el prestamista cuenta con expediente digital completo y respaldo jurídico, y los abogados tienen un canal eficiente para la recuperación de cartera.</p>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-lbl">Perfiles en la plataforma</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">10</div>
+          <div class="stat-lbl">Pasos del proceso</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-lbl">Digital y sin papeleo</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">IA</div>
+          <div class="stat-lbl">SmartScore propio</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <h4>Nuestros valores</h4>
+      <div class="value-item">
+        <div class="value-ico bl">🔐</div>
+        <div>
+          <h5>Confianza</h5>
+          <p>Biometría, documentos verificados y expediente digital para cada operación.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-ico gn">💡</div>
+        <div>
+          <h5>Transparencia</h5>
+          <p>Comunicación directa entre partes, sin intermediarios ocultos ni costos sorpresa.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-ico pu">⚖️</div>
+        <div>
+          <h5>Protección</h5>
+          <p>Contratos con validez legal, pagarés firmados y abogados especializados.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-ico gd">🚀</div>
+        <div>
+          <h5>Innovación</h5>
+          <p>IA, biometría y arquitectura Azure para una experiencia financiera de siguiente nivel.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hiw" id="como-funciona">
+  <div class="sec-eye">Proceso</div>
+  <h2 class="sec-title">10 pasos, de registro a depósito</h2>
+  <p class="sec-sub">Todo dentro de la app. Sin papeleo, sin sucursales, sin esperas innecesarias.</p>
+  <div class="steps-grid">
+    <div class="step-card"><div class="step-num">1</div><div class="step-ico">👤</div><h3>Registro e identidad</h3><p>INE, biometría facial, domicilio y expediente digital.</p><div class="stags"><span class="stag stag-b">Face API</span><span class="stag stag-g">Verificado</span></div></div>
+    <div class="step-card"><div class="step-num">2</div><div class="step-ico">📋</div><h3>Solicita préstamo</h3><p>Monto, plazo y frecuencia. SmartScore calculado al instante.</p><div class="stags"><span class="stag stag-b">SmartScore</span></div></div>
+    <div class="step-card"><div class="step-num">3</div><div class="step-ico">🔔</div><h3>Notificación push</h3><p>Todos los prestamistas calificados reciben alerta inmediata.</p><div class="stags"><span class="stag stag-b">Push</span><span class="stag stag-b">WhatsApp</span></div></div>
+    <div class="step-card"><div class="step-num">4</div><div class="step-ico">💰</div><h3>Prestamistas responden</h3><p>Cada uno propone su tasa y condiciones personalizadas.</p><div class="stags"><span class="stag stag-b">Múltiples ofertas</span></div></div>
+    <div class="step-card"><div class="step-num">5</div><div class="step-ico">📊</div><h3>Cliente elige</h3><p>Compara todas las ofertas y selecciona la mejor.</p><div class="stags"><span class="stag stag-g">Tú decides</span></div></div>
+  </div>
+  <div class="steps-grid" style="margin-top:2px">
+    <div class="step-card"><div class="step-num">6</div><div class="step-ico">✅</div><h3>Acepta la oferta</h3><p>Confirma los términos con el prestamista elegido.</p><div class="stags"><span class="stag stag-g">Confirmado</span></div></div>
+    <div class="step-card"><div class="step-num">7</div><div class="step-ico">💬</div><h3>Chat en tiempo real</h3><p>Comunicación directa y segura dentro de la app.</p><div class="stags"><span class="stag stag-b">Cifrado</span></div></div>
+    <div class="step-card"><div class="step-num">8</div><div class="step-ico">✍️</div><h3>Contrato y pagaré</h3><p>Firma electrónica con validez legal en México.</p><div class="stags"><span class="stag stag-g">Legal</span><span class="stag stag-b">Digital</span></div></div>
+    <div class="step-card"><div class="step-num">9</div><div class="step-ico">🏦</div><h3>Desembolso</h3><p>El prestamista transfiere directamente al cliente.</p><div class="stags"><span class="stag stag-g">En 24 hrs</span></div></div>
+    <div class="step-card"><div class="step-num">10</div><div class="step-ico">📅</div><h3>Pagos y cobranza</h3><p>Recordatorios automáticos por WhatsApp, SMS y llamada.</p><div class="stags"><span class="stag stag-b">Automático</span></div></div>
+  </div>
+</section>
+
+<!-- PERFILES — 3 tarjetas de registro -->
+<section class="profiles" id="perfiles">
+  <div class="sec-eye">Únete a SmartLoans</div>
+  <h2 class="sec-title">Hay un lugar para ti<br>en nuestra comunidad</h2>
+  <p class="sec-sub">Tres perfiles, una plataforma. Regístrate gratis desde la app y empieza hoy.</p>
+  <div class="profiles-grid">
+
+    <!-- ACREDITADO -->
+    <div class="profile-card pc-client">
+      <div class="profile-label">Acreditado · Solicita préstamos</div>
+      <div class="profile-ico">🙋</div>
+      <h3>Necesitas dinero. Nosotros te conectamos.</h3>
+      <p>Regístrate en 10 minutos, verifica tu identidad y recibe ofertas de prestamistas reales. Tú eliges la mejor tasa.</p>
+      <ul class="feat-list">
+        <li>Registro 100% digital desde tu celular</li>
+        <li>Verificación biométrica con Face API</li>
+        <li>SmartScore que mejora con el tiempo</li>
+        <li>Múltiples ofertas para comparar</li>
+        <li>Tasas negociadas directamente</li>
+        <li>Contrato digital con validez legal</li>
+        <li>Dinero en tu cuenta en 24 horas</li>
+      </ul>
+      <a href="https://play.google.com/store/apps/details?id=com.smartloans" target="_blank" class="prof-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M3.18 23.76c.3.17.64.24.99.2l12.45-7.19-2.78-2.78-10.66 9.77zM.51 1.46C.19 1.79 0 2.3 0 2.97v18.06c0 .67.19 1.18.51 1.51l.08.08 10.12-10.12v-.24L.59 1.38l-.08.08zM20.6 10.27l-2.88-1.66-3.12 3.12 3.12 3.12 2.9-1.68c.83-.48.83-1.26-.02-1.9zM4.17.24L16.62 7.43l-2.78 2.78L3.18.44C3.53.05 3.87.07 4.17.24z"/></svg>
+        Registrarme como acreditado
+      </a>
+    </div>
+
+    <!-- PRESTAMISTA -->
+    <div class="profile-card pc-lender">
+      <div class="profile-label">Prestamista · Invierte tu capital</div>
+      <div class="profile-ico">💼</div>
+      <h3>Tu dinero trabaja. Tú tienes el control.</h3>
+      <p>Revisa el expediente digital completo antes de invertir. Define tu tasa y condiciones. Respaldo jurídico incluido si hay incumplimiento.</p>
+      <ul class="feat-list">
+        <li>Expediente digital 100% verificado</li>
+        <li>SmartScore e IA de análisis de riesgo</li>
+        <li>Tú defines la tasa y el plazo</li>
+        <li>Chat directo con el acreditado</li>
+        <li>Pagaré firmado con validez legal</li>
+        <li>Monitoreo de pagos en tiempo real</li>
+        <li>Abogados disponibles si hay incumplimiento</li>
+      </ul>
+      <a href="https://play.google.com/store/apps/details?id=com.smartloans" target="_blank" class="prof-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M3.18 23.76c.3.17.64.24.99.2l12.45-7.19-2.78-2.78-10.66 9.77zM.51 1.46C.19 1.79 0 2.3 0 2.97v18.06c0 .67.19 1.18.51 1.51l.08.08 10.12-10.12v-.24L.59 1.38l-.08.08zM20.6 10.27l-2.88-1.66-3.12 3.12 3.12 3.12 2.9-1.68c.83-.48.83-1.26-.02-1.9zM4.17.24L16.62 7.43l-2.78 2.78L3.18.44C3.53.05 3.87.07 4.17.24z"/></svg>
+        Registrarme como prestamista
+      </a>
+    </div>
+
+    <!-- ABOGADO -->
+    <div class="profile-card pc-lawyer">
+      <div class="profile-label">Licenciado en derecho · Gestiona casos</div>
+      <div class="profile-ico">⚖️</div>
+      <h3>Recibe casos listos para juicio mercantil.</h3>
+      <p>La plataforma genera el expediente completo — identidad, contratos, pagarés y chats — para que inicies el proceso legal de inmediato.</p>
+      <ul class="feat-list">
+        <li>Expediente digital listo para presentar</li>
+        <li>Pagarés firmados electrónicamente</li>
+        <li>Historial de pagos y comunicaciones</li>
+        <li>Evidencia biométrica del acreditado</li>
+        <li>GPS y device fingerprint incluidos</li>
+        <li>Notificaciones de nuevos casos</li>
+        <li>Panel de seguimiento de recuperación</li>
+      </ul>
+      <a href="https://play.google.com/store/apps/details?id=com.smartloans" target="_blank" class="prof-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M3.18 23.76c.3.17.64.24.99.2l12.45-7.19-2.78-2.78-10.66 9.77zM.51 1.46C.19 1.79 0 2.3 0 2.97v18.06c0 .67.19 1.18.51 1.51l.08.08 10.12-10.12v-.24L.59 1.38l-.08.08zM20.6 10.27l-2.88-1.66-3.12 3.12 3.12 3.12 2.9-1.68c.83-.48.83-1.26-.02-1.9zM4.17.24L16.62 7.43l-2.78 2.78L3.18.44C3.53.05 3.87.07 4.17.24z"/></svg>
+        Registrarme como abogado
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- SMART SCORE -->
+<section class="score-sec">
+  <div class="score-grid">
+    <div class="score-visual">
+      <div class="score-ring">
+        <div class="score-inner">
+          <div class="score-num">785</div>
+          <div class="score-lbl">SmartScore</div>
+        </div>
+      </div>
+      <div class="score-factors">
+        <div class="sf"><span class="sf-name">Identidad</span><div class="sf-bar"><div class="sf-fill" style="width:98%"></div></div><span class="sf-val">98%</span></div>
+        <div class="sf"><span class="sf-name">Buró de crédito</span><div class="sf-bar"><div class="sf-fill" style="width:82%"></div></div><span class="sf-val">82%</span></div>
+        <div class="sf"><span class="sf-name">Historial de pago</span><div class="sf-bar"><div class="sf-fill" style="width:91%"></div></div><span class="sf-val">91%</span></div>
+        <div class="sf"><span class="sf-name">Comportamiento</span><div class="sf-bar"><div class="sf-fill" style="width:76%"></div></div><span class="sf-val">76%</span></div>
+        <div class="sf"><span class="sf-name">Geolocalización</span><div class="sf-bar"><div class="sf-fill" style="width:88%"></div></div><span class="sf-val">88%</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-eye">Inteligencia artificial</div>
+      <h2 class="sec-title">Tu SmartScore es tu carta de presentación</h2>
+      <p class="sec-sub">Nuestro motor de IA analiza cinco dimensiones de tu perfil para generar un puntaje que conecta a los mejores acreditados con los mejores prestamistas.</p>
+      <div class="ai-chips">
+        <span class="ai-chip">🔐 Azure Face API</span>
+        <span class="ai-chip">📊 Buró de crédito</span>
+        <span class="ai-chip">📍 GPS validado</span>
+        <span class="ai-chip">📱 Device fingerprint</span>
+        <span class="ai-chip">🤖 Motor de IA propio</span>
+        <span class="ai-chip">📄 OCR de documentos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGAL -->
+<section class="legal-sec" id="legal">
+  <div class="sec-eye">Respaldo jurídico</div>
+  <h2 class="sec-title">Tu inversión, protegida por ley</h2>
+  <p class="sec-sub">En caso de incumplimiento, SmartLoans genera el expediente completo para que un licenciado en derecho inicie el proceso legal de forma inmediata.</p>
+  <div class="legal-steps">
+    <div class="ls"><div class="ls-n">Paso 01</div><div class="ls-ico">📂</div><h4>Expediente completo</h4><p>Contratos, pagarés, chats, pagos, INE e historial generados automáticamente.</p></div>
+    <div class="ls"><div class="ls-n">Paso 02</div><div class="ls-ico">👨‍⚖️</div><h4>Abogado certificado</h4><p>Licenciado en derecho recibe el caso y revisa los pagarés para el juicio.</p></div>
+    <div class="ls"><div class="ls-n">Paso 03</div><div class="ls-ico">⚖️</div><h4>Juicio mercantil</h4><p>Se presenta la demanda con toda la evidencia digital ante el juez.</p></div>
+    <div class="ls"><div class="ls-n">Paso 04</div><div class="ls-ico">🔨</div><h4>Resolución judicial</h4><p>El juez emite resolución a favor del prestamista basado en el expediente.</p></div>
+    <div class="ls"><div class="ls-n">Paso 05</div><div class="ls-ico">🏛️</div><h4>Embargo y cobro</h4><p>Se ejecuta el embargo de bienes para recuperar el capital invertido.</p></div>
+  </div>
+  <div style="text-align:center">
+    <div class="legal-note">⚖️ Todos los contratos tienen validez legal en México · Pagarés con firma electrónica</div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section class="tech-sec">
+  <div class="sec-eye">Tecnología</div>
+  <h2 class="sec-title">Infraestructura de nivel empresarial</h2>
+  <p class="sec-sub">Construido sobre Microsoft Azure con los estándares de seguridad más exigentes del sector financiero.</p>
+  <div class="tech-grid">
+    <div class="tech-card"><div class="tech-ico">☁️</div><div><h4>Azure App Service</h4><p>Backend escalable con FastAPI sobre infraestructura Microsoft.</p></div></div>
+    <div class="tech-card"><div class="tech-ico">🧠</div><div><h4>Azure Face API</h4><p>Biometría facial con liveness detection en tiempo real.</p></div></div>
+    <div class="tech-card"><div class="tech-ico">🗄️</div><div><h4>Azure SQL</h4><p>Base de datos cifrada para datos financieros y personales.</p></div></div>
+    <div class="tech-card"><div class="tech-ico">🔔</div><div><h4>Notification Hub</h4><p>Push, WhatsApp y SMS instantáneos para todas las partes.</p></div></div>
+    <div class="tech-card"><div class="tech-ico">📁</div><div><h4>Azure Blob Storage</h4><p>Almacenamiento permanente de documentos, contratos y evidencias.</p></div></div>
+    <div class="tech-card"><div class="tech-ico">📱</div><div><h4>Ionic React</h4><p>App nativa para iOS y Android con experiencia premium.</p></div></div>
+    <div class="tech-card"><div class="tech-ico">🔒</div><div><h4>Firma electrónica</h4><p>Contratos y pagarés con validez legal firmados en la app.</p></div></div>
+    <div class="tech-card"><div class="tech-ico">🤖</div><div><h4>Motor SmartScore</h4><p>IA propia que analiza riesgo con 5 dimensiones del perfil.</p></div></div>
+  </div>
+</section>
+
+<!-- DESCARGA -->
+<section class="download-sec" id="descarga">
+  <h2>Empieza hoy.<br><em>Es gratis unirse.</em></h2>
+  <p>Disponible para iOS y Android. Sin costo de registro. Sin comisiones ocultas.</p>
+  <div class="store-btns">
+    <a href="https://apps.apple.com/app/smartloans" target="_blank" class="store-btn apple">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.15-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04l-.07.28zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      <div class="store-btn-text">
+        <div class="top">Disponible en</div>
+        <div class="name">App Store</div>
+      </div>
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=com.smartloans" target="_blank" class="store-btn google">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M3.18 23.76c.3.17.64.24.99.2l12.45-7.19-2.78-2.78-10.66 9.77zM.51 1.46C.19 1.79 0 2.3 0 2.97v18.06c0 .67.19 1.18.51 1.51l.08.08 10.12-10.12v-.24L.59 1.38l-.08.08zM20.6 10.27l-2.88-1.66-3.12 3.12 3.12 3.12 2.9-1.68c.83-.48.83-1.26-.02-1.9zM4.17.24L16.62 7.43l-2.78 2.78L3.18.44C3.53.05 3.87.07 4.17.24z"/></svg>
+      <div class="store-btn-text">
+        <div class="top">Disponible en</div>
+        <div class="name">Google Play</div>
+      </div>
+    </a>
+  </div>
+  <p class="reg-note">¿Ya tienes cuenta? <a href="https://mango-smoke-0323ed91e.3.azurestaticapps.net/login">Inicia sesión aquí →</a></p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="logo">Smart<span>Loans</span></a>
+      <p>Marketplace de préstamos entre personas, impulsado por inteligencia artificial y respaldo jurídico.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Plataforma</h5>
+      <a href="#nosotros">Acerca de nosotros</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#perfiles">Únete</a>
+      <a href="#legal">Respaldo legal</a>
+    </div>
+    <div class="footer-col">
+      <h5>Perfiles</h5>
+      <a href="#perfiles">Acreditados</a>
+      <a href="#perfiles">Prestamistas</a>
+      <a href="#perfiles">Licenciados en derecho</a>
+    </div>
+    <div class="footer-col">
+      <h5>Descargar</h5>
+      <a href="https://apps.apple.com/app/smartloans" target="_blank">App Store — iOS</a>
+      <a href="https://play.google.com/store/apps/details?id=com.smartloans" target="_blank">Google Play — Android</a>
+      <a href="https://mango-smoke-0323ed91e.3.azurestaticapps.net/login">Iniciar sesión</a>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <a href="#" onclick="showPage('terms');return false">Términos de uso</a>
+      <a href="#" onclick="showPage('privacy');return false">Política de privacidad</a>
+      <a href="#" onclick="showPage('terms');return false">Aviso legal</a>
+      <a href="#">Contacto</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SmartLoans. Todos los derechos reservados. Hermosillo, Sonora, México.</p>
+    <p>Construido con Microsoft Azure · Ionic React · FastAPI</p>
+  </div>
+</footer>
+
+
+</div>
+
+<!-- PAGE: PRIVACY -->
+<div class="page" id="page-privacy">
+<nav>
+  <a href="#" onclick="showPage('home');return false" class="logo">Smart<span>Loans</span></a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home');return false">← Inicio</a></li>
+    <li><a href="#" onclick="showPage('home');showSection('nosotros');return false">Nosotros</a></li>
+    <li><a href="#" onclick="showPage('home');showSection('como-funciona');return false">Cómo funciona</a></li>
+    <li><a href="#" onclick="showPage('home');showSection('perfiles');return false">Únete</a></li>
+    <li><a href="#" onclick="showPage('privacy');return false">Privacidad</a></li>
+    <li><a href="#" onclick="showPage('terms');return false">Términos</a></li>
+  </ul>
+  <a href="#" onclick="showPage('home');showSection('descarga');return false" class="nav-cta">Descargar app</a>
+</nav>
+<div class="hero-doc">
+  <div class="doc-type">Documento legal</div>
+  <h1>Política de Privacidad</h1>
+  <div class="meta">Última actualización: 28 de junio de 2026 &nbsp;·&nbsp; Versión 1.0 &nbsp;·&nbsp; Válida en México</div>
+</div>
+
+<div class="content">
+
+<div class="highlight">
+  <p>SmartLoans se compromete a proteger tu privacidad. Esta política explica qué datos recopilamos, cómo los usamos y cómo los protegemos. Al usar nuestra aplicación, aceptas los términos descritos en este documento.</p>
+</div>
+
+<h2>1. Responsable del tratamiento de datos</h2>
+<p><strong>SmartLoans</strong> es el responsable del tratamiento de tus datos personales. Puedes contactarnos en cualquier momento a través de los medios indicados al final de este documento.</p>
+<p>Nuestra plataforma opera bajo las leyes de los Estados Unidos Mexicanos, incluyendo la <strong>Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP)</strong> y su Reglamento.</p>
+
+<h2>2. Datos personales que recopilamos</h2>
+<p>Recopilamos distintos tipos de información según el perfil del usuario (acreditado, prestamista o licenciado en derecho):</p>
+
+<h3>2.1 Datos de identificación</h3>
+<ul>
+  <li>Nombre completo, fecha de nacimiento y CURP</li>
+  <li>Fotografía del documento de identificación oficial (INE/IFE frente y reverso, pasaporte o licencia de conducir)</li>
+  <li>Datos extraídos mediante OCR del documento de identificación</li>
+  <li>Número de teléfono y correo electrónico</li>
+</ul>
+
+<h3>2.2 Datos biométricos</h3>
+<ul>
+  <li>Imagen facial capturada mediante la cámara del dispositivo</li>
+  <li>Vectores biométricos generados por Azure Face API para verificación de identidad</li>
+  <li>Resultado de la prueba de vida (liveness detection)</li>
+</ul>
+<div class="highlight"><p>⚠️ Los datos biométricos son datos sensibles. Solo se usan para verificar tu identidad y no se comparten con terceros excepto con Microsoft Azure para el procesamiento de la verificación.</p></div>
+
+<h3>2.3 Datos de domicilio</h3>
+<ul>
+  <li>Comprobante de domicilio (imagen)</li>
+  <li>Dirección completa</li>
+  <li>Video del exterior del domicilio</li>
+  <li>Coordenadas GPS en el momento del registro</li>
+</ul>
+
+<h3>2.4 Datos financieros</h3>
+<ul>
+  <li>Historial crediticio obtenido del Buró de Crédito (con tu autorización expresa)</li>
+  <li>Datos de cuenta bancaria para transferencias</li>
+  <li>Historial de pagos dentro de la plataforma</li>
+  <li>Monto, plazo y condiciones de los préstamos solicitados u otorgados</li>
+</ul>
+
+<h3>2.5 Datos del dispositivo y comportamiento</h3>
+<ul>
+  <li>Device fingerprint (identificador único del dispositivo)</li>
+  <li>Sistema operativo, versión de la app y modelo del dispositivo</li>
+  <li>Dirección IP y datos de conexión</li>
+  <li>Historial de actividad dentro de la plataforma</li>
+</ul>
+
+<h3>2.6 Datos de comunicación</h3>
+<ul>
+  <li>Mensajes enviados a través del chat interno de la plataforma</li>
+  <li>Notas de voz e imágenes compartidas en el chat</li>
+  <li>Historial de notificaciones enviadas</li>
+</ul>
+
+<h2>3. Finalidades del tratamiento</h2>
+<table>
+  <tr><th>Dato</th><th>Finalidad</th><th>Base legal</th></tr>
+  <tr><td>Identificación y biometría</td><td>Verificar la identidad del usuario y prevenir fraude</td><td>Consentimiento expreso</td></tr>
+  <tr><td>Domicilio y GPS</td><td>Validar residencia y calcular SmartScore</td><td>Consentimiento expreso</td></tr>
+  <tr><td>Buró de crédito</td><td>Evaluar riesgo crediticio y generar SmartScore</td><td>Consentimiento expreso</td></tr>
+  <tr><td>Datos financieros</td><td>Facilitar préstamos, pagos y cobranza</td><td>Ejecución del contrato</td></tr>
+  <tr><td>Device fingerprint</td><td>Seguridad, detección de fraude y autenticación</td><td>Interés legítimo</td></tr>
+  <tr><td>Chat y comunicaciones</td><td>Facilitar negociación y como evidencia en caso de juicio</td><td>Consentimiento expreso</td></tr>
+  <tr><td>Historial de pagos</td><td>Monitoreo de créditos activos y generación de SmartScore</td><td>Ejecución del contrato</td></tr>
+</table>
+
+<h2>4. Compartición de datos con terceros</h2>
+<p>SmartLoans puede compartir tus datos con los siguientes terceros, siempre con las protecciones adecuadas:</p>
+<ul>
+  <li><strong>Microsoft Azure</strong> — Procesamiento biométrico (Face API), almacenamiento (Blob Storage), base de datos (SQL) y notificaciones. Datos procesados en centros de datos seguros bajo estándares ISO 27001.</li>
+  <li><strong>Buró de Crédito</strong> — Para consulta de historial crediticio, con tu autorización expresa previa.</li>
+  <li><strong>Prestamistas en la plataforma</strong> — Tu expediente digital (sin datos bancarios completos) es visible para los prestamistas que reciban tu solicitud de préstamo.</li>
+  <li><strong>Licenciados en derecho</strong> — En caso de incumplimiento, el expediente completo es compartido con el abogado asignado para el proceso de recuperación.</li>
+  <li><strong>WhatsApp/SMS</strong> — Para envío de notificaciones y recordatorios de pago.</li>
+  <li><strong>Autoridades competentes</strong> — Cuando sea requerido por ley, orden judicial o para prevenir actividades ilegales.</li>
+</ul>
+<p>SmartLoans <strong>no vende ni comercializa</strong> tus datos personales a terceros con fines publicitarios.</p>
+
+<h2>5. SmartScore — uso de datos para puntuación</h2>
+<p>Nuestro motor de inteligencia artificial genera un SmartScore basado en: identidad verificada, historial del buró de crédito, comportamiento en la plataforma, datos de geolocalización y device fingerprint. Este puntaje es utilizado para conectarte con prestamistas adecuados y para que los prestamistas evalúen el riesgo de cada solicitud.</p>
+<p>El SmartScore <strong>no es una calificación crediticia oficial</strong> ni reemplaza la consulta al Buró de Crédito. Es un indicador interno de la plataforma.</p>
+
+<h2>6. Conservación de datos</h2>
+<ul>
+  <li><strong>Datos de identidad y biometría:</strong> Durante la vigencia de tu cuenta y 5 años adicionales tras su cierre, conforme a la LFPDPPP.</li>
+  <li><strong>Contratos y pagarés:</strong> 10 años a partir de la firma, conforme al Código de Comercio de México.</li>
+  <li><strong>Historial de pagos y transacciones:</strong> 7 años conforme a legislación fiscal.</li>
+  <li><strong>Chat y comunicaciones:</strong> Durante la vigencia del préstamo y 5 años adicionales (evidencia legal).</li>
+  <li><strong>Datos de dispositivo y GPS:</strong> 2 años desde la última actividad.</li>
+</ul>
+
+<h2>7. Seguridad de los datos</h2>
+<p>Implementamos medidas técnicas y organizativas para proteger tus datos:</p>
+<ul>
+  <li>Cifrado en tránsito (TLS 1.3) y en reposo (AES-256)</li>
+  <li>Infraestructura Microsoft Azure con certificaciones ISO 27001, SOC 2 y PCI DSS</li>
+  <li>Autenticación biométrica y de dos factores</li>
+  <li>Auditorías de seguridad periódicas</li>
+  <li>Acceso restringido a datos personales por parte del personal</li>
+  <li>Monitoreo continuo de accesos y actividad sospechosa</li>
+</ul>
+
+<h2>8. Tus derechos ARCO</h2>
+<p>Conforme a la LFPDPPP, tienes los siguientes derechos sobre tus datos personales:</p>
+<ul>
+  <li><strong>Acceso:</strong> Solicitar qué datos tenemos sobre ti y cómo los usamos.</li>
+  <li><strong>Rectificación:</strong> Corregir datos inexactos o incompletos.</li>
+  <li><strong>Cancelación:</strong> Solicitar la eliminación de tus datos cuando ya no sean necesarios.</li>
+  <li><strong>Oposición:</strong> Oponerte al tratamiento de tus datos para finalidades específicas.</li>
+</ul>
+<p>Para ejercer tus derechos ARCO, envía un correo a <strong>privacidad@smartloans.mx</strong> con tu nombre completo, descripción de la solicitud y copia de tu identificación oficial. Responderemos en un plazo máximo de <strong>20 días hábiles</strong>.</p>
+<div class="highlight"><p>Nota: Algunos datos no pueden eliminarse mientras existan obligaciones legales vigentes (contratos activos, procesos judiciales, obligaciones fiscales).</p></div>
+
+<h2>9. Transferencias internacionales</h2>
+<p>Tus datos pueden ser procesados fuera de México únicamente por Microsoft Azure para los servicios de infraestructura descritos. Microsoft Azure cumple con los estándares internacionales de protección de datos y cuenta con Binding Corporate Rules (BCR) aprobadas.</p>
+
+<h2>10. Menores de edad</h2>
+<p>SmartLoans está dirigido exclusivamente a mayores de 18 años. No recopilamos datos de menores de edad de forma intencional. Si detectamos que un menor ha proporcionado datos, procederemos a eliminarlos de inmediato.</p>
+
+<h2>11. Cookies y tecnologías similares</h2>
+<p>Nuestra aplicación móvil no utiliza cookies de navegador. Sin embargo, utilizamos identificadores de dispositivo y tecnologías similares para autenticación, seguridad y mejora del servicio. Puedes revocar estos permisos desde la configuración de tu dispositivo, aunque esto puede afectar el funcionamiento de la app.</p>
+
+<h2>12. Cambios a esta política</h2>
+<p>Podemos actualizar esta política en cualquier momento. Te notificaremos mediante la app y/o correo electrónico con al menos <strong>30 días de anticipación</strong> cuando los cambios sean sustanciales. El uso continuado de la plataforma tras la notificación implica la aceptación de la nueva política.</p>
+
+<div class="contact-box">
+  <h3>Contacto — Datos personales y privacidad</h3>
+  <p><strong>SmartLoans</strong></p>
+  <p>📧 <a href="mailto:privacidad@smartloans.mx">privacidad@smartloans.mx</a></p>
+  <p>📍 Hermosillo, Sonora, México</p>
+  <p>🌐 <a href="https://smartloans.mx">smartloans.mx</a></p>
+  <p style="margin-top:12px;font-size:13px;color:var(--g500)">Para ejercer derechos ARCO o reportar incidentes de privacidad, incluye en tu mensaje: nombre completo, descripción de la solicitud y copia de identificación oficial.</p>
+</div>
+
+</div>
+
+<footer>
+  <p>© 2026 SmartLoans · <a href="#" onclick="showPage('terms');return false">Términos de uso</a> · <a href="#top" onclick="showPage('home');return false">Inicio</a> · Hermosillo, Sonora, México</p>
+</footer>
+</div>
+
+<!-- PAGE: TERMS -->
+<div class="page" id="page-terms">
+<nav>
+  <a href="#" onclick="showPage('home');return false" class="logo">Smart<span>Loans</span></a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home');return false">← Inicio</a></li>
+    <li><a href="#" onclick="showPage('home');showSection('nosotros');return false">Nosotros</a></li>
+    <li><a href="#" onclick="showPage('home');showSection('como-funciona');return false">Cómo funciona</a></li>
+    <li><a href="#" onclick="showPage('home');showSection('perfiles');return false">Únete</a></li>
+    <li><a href="#" onclick="showPage('privacy');return false">Privacidad</a></li>
+    <li><a href="#" onclick="showPage('terms');return false">Términos</a></li>
+  </ul>
+  <a href="#" onclick="showPage('home');showSection('descarga');return false" class="nav-cta">Descargar app</a>
+</nav>
+<div class="hero-doc">
+  <div class="doc-type">Documento legal</div>
+  <h1>Términos de Uso</h1>
+  <div class="meta">Última actualización: 28 de junio de 2026 &nbsp;·&nbsp; Versión 1.0 &nbsp;·&nbsp; Válidos en México</div>
+</div>
+
+<div class="content">
+
+<div class="highlight">
+  <p>Al descargar, instalar o usar la aplicación SmartLoans, aceptas estos Términos de Uso en su totalidad. Si no estás de acuerdo con alguna parte, no uses la plataforma.</p>
+</div>
+
+<h2>1. Descripción del servicio</h2>
+<p>SmartLoans es un <strong>marketplace digital de préstamos entre personas (peer-to-peer lending)</strong>. La plataforma conecta a acreditados (personas que solicitan préstamos) con prestamistas (personas que otorgan préstamos) y con licenciados en derecho (abogados que gestionan recuperación de cartera).</p>
+
+<div class="highlight-warn">
+  <p>⚠️ SmartLoans NO es una institución financiera, banco, sofom, ni entidad de crédito regulada. No otorgamos préstamos propios ni garantizamos el desempeño de ninguna operación. Somos exclusivamente una plataforma tecnológica que facilita la conexión entre usuarios.</p>
+</div>
+
+<h2>2. Requisitos para usar la plataforma</h2>
+<p>Para registrarte y usar SmartLoans debes cumplir con todos los siguientes requisitos:</p>
+<ul>
+  <li>Ser mayor de 18 años</li>
+  <li>Ser ciudadano o residente legal en México</li>
+  <li>Contar con una identificación oficial vigente (INE, pasaporte o licencia de conducir)</li>
+  <li>Contar con un número de teléfono mexicano activo</li>
+  <li>Contar con una cuenta bancaria en México a tu nombre</li>
+  <li>Tener capacidad legal para celebrar contratos</li>
+  <li>No tener antecedentes de fraude o actividades ilícitas</li>
+</ul>
+<p>SmartLoans se reserva el derecho de rechazar o cancelar cuentas que no cumplan estos requisitos.</p>
+
+<h2>3. Perfiles de usuario</h2>
+
+<h3><span class="profile-badge pb-client">🙋 Acreditado</span></h3>
+<p>El acreditado es quien solicita un préstamo dentro de la plataforma. Al registrarse como acreditado, el usuario:</p>
+<ul>
+  <li>Autoriza expresamente la consulta de su historial crediticio en el Buró de Crédito</li>
+  <li>Acepta completar el proceso de verificación de identidad (biometría, INE, domicilio y video del hogar)</li>
+  <li>Acepta que su expediente digital sea visible para los prestamistas que reciban su solicitud</li>
+  <li>Se compromete a proporcionar información veraz y actualizada</li>
+  <li>Acepta los términos de cada préstamo que contrate, incluyendo tasas, plazos y consecuencias de incumplimiento</li>
+  <li>Entiende que el incumplimiento puede derivar en un juicio mercantil</li>
+</ul>
+
+<h3><span class="profile-badge pb-lender">💼 Prestamista</span></h3>
+<p>El prestamista es quien otorga préstamos a través de la plataforma. Al registrarse como prestamista, el usuario:</p>
+<ul>
+  <li>Declara que el dinero que invierte es de origen lícito</li>
+  <li>Entiende que los préstamos implican riesgo de pérdida de capital</li>
+  <li>Acepta que SmartLoans no garantiza el repago de ningún préstamo</li>
+  <li>Acepta las condiciones de cada operación que realice</li>
+  <li>Tiene acceso al expediente digital del acreditado para tomar decisiones informadas</li>
+  <li>Entiende que en caso de incumplimiento puede iniciar un proceso legal con el apoyo de SmartLoans</li>
+</ul>
+<div class="highlight-warn">
+  <p>⚠️ Invertir en préstamos personales conlleva riesgos. SmartLoans no ofrece rendimientos garantizados ni actúa como intermediario financiero regulado. Invierte únicamente el capital que puedes permitirte perder.</p>
+</div>
+
+<h3><span class="profile-badge pb-lawyer">⚖️ Licenciado en derecho</span></h3>
+<p>Los licenciados en derecho son abogados certificados que se registran para recibir casos de recuperación de cartera. Al registrarse como licenciado, el usuario:</p>
+<ul>
+  <li>Declara ser licenciado en derecho con cédula profesional vigente en México</li>
+  <li>Acepta recibir expedientes digitales de casos asignados por la plataforma</li>
+  <li>Se compromete a mantener la confidencialidad de la información de los usuarios</li>
+  <li>Acepta las comisiones y condiciones de pago establecidas por SmartLoans para cada caso</li>
+  <li>Entiende que actúa de forma independiente y no como empleado de SmartLoans</li>
+</ul>
+
+<h2>4. Proceso de verificación de identidad</h2>
+<p>Todo usuario debe completar el proceso de verificación de identidad antes de operar en la plataforma. Este proceso incluye:</p>
+<ol>
+  <li>Registro de datos personales</li>
+  <li>Carga y validación de identificación oficial mediante OCR</li>
+  <li>Verificación biométrica facial en vivo (liveness detection) mediante Azure Face API</li>
+  <li>Validación de comprobante de domicilio</li>
+  <li>Grabación de video del exterior del domicilio</li>
+  <li>Consulta al Buró de Crédito (para acreditados)</li>
+</ol>
+<p>La falsificación de documentos o información en el proceso de verificación puede constituir un delito conforme al Código Penal Federal de México.</p>
+
+<h2>5. Contratos y pagarés digitales</h2>
+<p>Todos los préstamos realizados a través de SmartLoans se formalizan mediante:</p>
+<ul>
+  <li>Un <strong>contrato de préstamo digital</strong> aceptado y firmado por ambas partes</li>
+  <li>Un <strong>pagaré electrónico</strong> con firma digital, que tiene plena validez legal en México conforme a la Ley de Firma Electrónica Avanzada (LFEA)</li>
+</ul>
+<p>Al firmar estos documentos dentro de la app, ambas partes aceptan que tienen la misma validez jurídica que un contrato firmado en papel ante notario.</p>
+<div class="highlight-green">
+  <p>✓ Los contratos y pagarés firmados en SmartLoans son documentos con validez legal en México y pueden ser presentados como prueba ante cualquier autoridad judicial.</p>
+</div>
+
+<h2>6. Tasas de interés y comisiones</h2>
+<p>SmartLoans no fija las tasas de interés de los préstamos. Las tasas son acordadas libremente entre acreditados y prestamistas mediante el proceso de negociación en la plataforma.</p>
+<p>SmartLoans puede cobrar comisiones por el uso de la plataforma, las cuales serán informadas de forma transparente antes de cada operación. Las comisiones actuales están disponibles en la sección de tarifas de la app.</p>
+
+<h2>7. Proceso de cobranza y recuperación</h2>
+<p>En caso de que un acreditado incumpla con los pagos acordados:</p>
+<ol>
+  <li>La plataforma enviará recordatorios automáticos por push, WhatsApp, SMS y llamada</li>
+  <li>Si el incumplimiento persiste, el prestamista puede solicitar activar el proceso de recuperación legal</li>
+  <li>SmartLoans generará el expediente digital completo (contratos, pagarés, chats, pagos, identificaciones y biometría)</li>
+  <li>Un licenciado en derecho registrado en la plataforma recibirá el expediente para iniciar el juicio mercantil</li>
+  <li>El proceso puede derivar en embargo de bienes conforme a la legislación mexicana</li>
+</ol>
+<p>El acreditado acepta expresamente este proceso al firmar el contrato de préstamo.</p>
+
+<h2>8. Prohibiciones</h2>
+<p>Está estrictamente prohibido en SmartLoans:</p>
+<ul>
+  <li>Proporcionar información falsa, documentos apócrifos o identidades robadas</li>
+  <li>Usar la plataforma para actividades de lavado de dinero o financiamiento al terrorismo</li>
+  <li>Crear múltiples cuentas para evadir controles de la plataforma</li>
+  <li>Acosar, amenazar o intimidar a otros usuarios</li>
+  <li>Intentar hackear, vulnerar o acceder sin autorización a sistemas de SmartLoans</li>
+  <li>Compartir credenciales de acceso con terceros</li>
+  <li>Usar la plataforma para préstamos con fines ilícitos</li>
+</ul>
+<p>El incumplimiento de estas prohibiciones puede resultar en la cancelación inmediata de la cuenta, reporte a las autoridades competentes y acciones legales.</p>
+
+<h2>9. Propiedad intelectual</h2>
+<p>Todo el contenido de SmartLoans — incluyendo el software, diseño, marca, logotipo, algoritmos, SmartScore y código fuente — es propiedad exclusiva de SmartLoans y está protegido por las leyes de propiedad intelectual de México. Queda prohibida su reproducción, modificación o distribución sin autorización expresa por escrito.</p>
+
+<h2>10. Limitación de responsabilidad</h2>
+<p>SmartLoans no es responsable por:</p>
+<ul>
+  <li>Pérdidas de capital derivadas de préstamos no pagados</li>
+  <li>Información incorrecta proporcionada por los usuarios</li>
+  <li>Interrupciones del servicio por causas de fuerza mayor o mantenimiento</li>
+  <li>Decisiones de inversión o crédito tomadas por los usuarios</li>
+  <li>Resultados de procesos judiciales</li>
+</ul>
+<p>La responsabilidad total de SmartLoans en cualquier caso no excederá el monto de las comisiones pagadas por el usuario en los últimos 12 meses.</p>
+
+<h2>11. Modificaciones al servicio y a los términos</h2>
+<p>SmartLoans se reserva el derecho de modificar, suspender o descontinuar cualquier parte del servicio en cualquier momento. Los cambios sustanciales a estos términos serán notificados con al menos <strong>30 días de anticipación</strong> a través de la app y correo electrónico. El uso continuado del servicio implica la aceptación de los nuevos términos.</p>
+
+<h2>12. Ley aplicable y jurisdicción</h2>
+<p>Estos términos se rigen por las leyes de los <strong>Estados Unidos Mexicanos</strong>. Para cualquier controversia, las partes se someten a la jurisdicción de los tribunales competentes de <strong>Hermosillo, Sonora, México</strong>, renunciando a cualquier otro fuero que pudiera corresponderles.</p>
+
+<h2>13. Cancelación de cuenta</h2>
+<p>Puedes solicitar la cancelación de tu cuenta en cualquier momento desde la configuración de la app o enviando un correo a soporte@smartloans.mx. La cancelación no libera al acreditado de obligaciones pendientes de pago ni elimina contratos o pagarés vigentes.</p>
+
+<h2>14. Resolución de disputas</h2>
+<p>Antes de iniciar cualquier acción legal, te pedimos contactar a nuestro equipo de soporte en soporte@smartloans.mx. Haremos nuestro mejor esfuerzo por resolver cualquier disputa de forma amistosa en un plazo de 15 días hábiles.</p>
+
+<div class="contact-box">
+  <h3>Contacto — Soporte y asuntos legales</h3>
+  <p><strong>SmartLoans</strong></p>
+  <p>📧 Soporte general: <a href="mailto:soporte@smartloans.mx">soporte@smartloans.mx</a></p>
+  <p>📧 Asuntos legales: <a href="mailto:legal@smartloans.mx">legal@smartloans.mx</a></p>
+  <p>📧 Privacidad: <a href="mailto:privacidad@smartloans.mx">privacidad@smartloans.mx</a></p>
+  <p>📍 Hermosillo, Sonora, México</p>
+  <p>🌐 <a href="https://smartloans.mx">smartloans.mx</a></p>
+</div>
+
+</div>
+
+<footer>
+  <p>© 2026 SmartLoans · <a href="#" onclick="showPage('privacy');return false">Política de privacidad</a> · <a href="#top" onclick="showPage('home');return false">Inicio</a> · Hermosillo, Sonora, México</p>
+</footer>
+</div>
+
+<script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+  history.pushState(null, '', name === 'home' ? '/' : '/' + name);
+}
+
+function showSection(id) {
+  // Wait for home page to render, then scroll to section
+  setTimeout(function() {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+// Handle browser back button
+window.addEventListener('popstate', function() {
+  var path = window.location.pathname.replace('/', '');
+  var page = path === 'privacy' ? 'privacy' : path === 'terms' ? 'terms' : 'home';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  window.scrollTo(0, 0);
+});
+
+// Check initial URL
+(function() {
+  var path = window.location.pathname.replace(/^\//, '');
+  if (path === 'privacy' || path === 'terms') showPage(path);
+})();
+</script>
+
+</body>
+</html>
